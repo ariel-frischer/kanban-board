@@ -1,0 +1,31 @@
+{
+  "name": "js-hiring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "lerna run --scope js-hiring-frontend --scope js-hiring-backend --parallel start",
+    "start:backend": "lerna run --scope js-hiring-backend start",
+    "start:frontend": "lerna run --scope js-hiring-frontend start",
+    "build": "lerna run --scope js-hiring-frontend --scope js-hiring-backend build",
+    "build:backend": "lerna run --scope js-hiring-backend build",
+    "build:frontend": "lerna run --scope js-hiring-frontend build",
+    "test": "lerna run --scope js-hiring-frontend --scope js-hiring-backend test",
+    "test:backend": "lerna run --scope js-hiring-backend test",
+    "test:frontend": "lerna run --scope js-hiring-frontend test",
+    "bootstrap": "lerna bootstrap",
+    "lerna": "lerna",
+    "postinstall": "npm run bootstrap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/treelineinteractive/js-hiring.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/treelineinteractive/js-hiring#readme",
+  "dependencies": {
+    "lerna": "^3.22.1",
+    "prettier": "^2.0.5"
+  }
+}
