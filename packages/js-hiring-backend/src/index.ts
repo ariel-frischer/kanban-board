@@ -1,7 +1,7 @@
 import { config as dotenvConfig } from "dotenv";
 import express from "express";
 import { HelloController } from "./controller/hello.controller";
-import Message from "./model/message";
+import QuoteDoc from "./model/quotes";
 import { connect } from "mongoose";
 import { createApp } from "./app";
 

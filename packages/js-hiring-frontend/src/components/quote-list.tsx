@@ -89,13 +89,17 @@ const InnerQuoteList = (props: QuoteListProps) => {
   return (
     <React.Fragment>
       {props.quotes.map((quote: Quote, index: number) => (
-        <Draggable key={quote.id} draggableId={quote.id} index={index}>
+        <Draggable
+          key={quote._id ? quote._id : quote.id}
+          draggableId={quote._id ? quote._id : quote.id}
+          index={index}
+        >
           {(
             dragProvided: DraggableProvided,
             dragSnapshot: DraggableStateSnapshot
           ) => (
             <QuoteItem
-              key={quote.id}
+              key={quote._id ? quote._id : quote.id}
               quote={quote}
               isDragging={dragSnapshot.isDragging}
               isGroupedOver={Boolean(dragSnapshot.combineTargetFor)}

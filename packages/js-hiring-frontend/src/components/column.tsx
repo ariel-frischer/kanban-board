@@ -17,6 +17,7 @@ import {
 import { Quote } from "../types";
 import { Title } from "./title";
 import QuoteList from "./quote-list";
+import { STATUS } from "../data";
 // import { Draggable } from "../../../src";
 // import type { DraggableProvided, DraggableStateSnapshot } from "../../../src";
 // import QuoteList from "../primatives/quote-list";
@@ -48,6 +49,7 @@ const Header = styled.div<HeaderProps>`
 type Props = {
   title: string;
   quotes: Quote[];
+  status: string;
   // description: string[];
   index: number;
   isScrollable?: boolean;
@@ -57,7 +59,14 @@ type Props = {
 
 export default class Column extends Component<Props> {
   render() {
-    const { title, quotes, index, isScrollable, isCombineEnabled } = this.props;
+    const {
+      title,
+      status,
+      quotes,
+      index,
+      isScrollable,
+      isCombineEnabled,
+    } = this.props;
     return (
       <Draggable draggableId={title} index={index}>
         {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -84,9 +93,9 @@ export default class Column extends Component<Props> {
               <Title
                 // isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
-                aria-label={`${title} quote list`}
+                aria-label={`${status} quote list`}
               >
-                {title}
+                {status}
               </Title>
             </Header>
             <QuoteList

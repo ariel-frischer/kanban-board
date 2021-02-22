@@ -55,8 +55,13 @@ export const reorderQuoteMap = ({
 
   // remove from original
   current.splice(source.index, 1);
+
+  console.log("destination.droppableId :>> ", destination.droppableId);
   // insert into next
-  next.splice(destination.index, 0, target);
+  next.splice(destination.index, 0, {
+    ...target,
+    status: destination.droppableId,
+  });
 
   const result: QuoteMap = {
     ...quoteMap,

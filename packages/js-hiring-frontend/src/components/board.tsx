@@ -14,6 +14,8 @@ import {
 } from "react-beautiful-dnd";
 import { Quote, QuoteMap } from "../types";
 import { colors } from "@material-ui/core";
+import axios from "axios";
+import { parseQuoteMap } from "../data";
 // import { Container } from "@material-ui/core";
 // import { DragDropContext, Droppable } from '../../../src';
 
@@ -57,25 +59,25 @@ export default class Board extends Component<Props, State> {
 
   // boardRef: ?HTMLElement;
 
-  onDragEnd = (result: DropResult) => {
-    if (result.combine) {
-      if (result.type === "COLUMN") {
-        const shallow: string[] = [...this.state.ordered];
-        shallow.splice(result.source.index, 1);
-        this.setState({ ordered: shallow });
-        return;
-      }
+  onDragEnd = async (result: DropResult) => {
+    // if (result.combine) {
+    //   if (result.type === "COLUMN") {
+    //     const shallow: string[] = [...this.state.ordered];
+    //     shallow.splice(result.source.index, 1);
+    //     this.setState({ ordered: shallow });
+    //     return;
+    //   }
 
-      const column: Quote[] = this.state.columns[result.source.droppableId];
-      const withQuoteRemoved: Quote[] = [...column];
-      withQuoteRemoved.splice(result.source.index, 1);
-      const columns: QuoteMap = {
-        ...this.state.columns,
-        [result.source.droppableId]: withQuoteRemoved,
-      };
-      this.setState({ columns });
-      return;
-    }
+    //   const column: Quote[] = this.state.columns[result.source.droppableId];
+    //   const withQuoteRemoved: Quote[] = [...column];
+    //   withQuoteRemoved.splice(result.source.index, 1);
+    //   const columns: QuoteMap = {
+    //     ...this.state.columns,
+    //     [result.source.droppableId]: withQuoteRemoved,
+    //   };
+    //   this.setState({ columns });
+    //   return;
+    // }
 
     // dropped nowhere
     if (!result.destination) {
@@ -117,6 +119,15 @@ export default class Board extends Component<Props, State> {
     this.setState({
       columns: data.quoteMap,
     });
+
+    try {
+      const response = await axios.post("/updateQuotes", {
+        quotes: JSON.stringify(parseQuoteMap(data.quoteMap)),
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
@@ -147,6 +158,7 @@ export default class Board extends Component<Props, State> {
               <Column
                 key={key}
                 index={index}
+                status={key}
                 title={key}
                 quotes={columns[key]}
                 isScrollable={withScrollableColumns}

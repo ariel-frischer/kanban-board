@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Board from "./components/board";
-import { authorQuoteMap } from "./data";
+import { authorQuoteMap, statusQuoteMap } from "./data";
 import {
   Card,
   CardContent,
   colors,
   Container,
+  LinearProgress,
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import axios from "axios";
+import useFetch from "./hooks/useFetch";
+import { QuoteMap } from "./types";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -35,6 +39,34 @@ const useStyles = makeStyles((theme) => {
 
 function App() {
   const classes = useStyles();
+  const [quoteData, setQuoteData] = useState(statusQuoteMap);
+
+  // Useful Custom Hook for fetching data
+  const { status, data, error } = useFetch<QuoteMap>(
+    `${axios.defaults.baseURL}/getQuotes`
+  );
+
+  const renderData = () => {
+    if (error) {
+      if (error === "Request failed with status code 502") {
+        return (
+          <div>
+            <p>Please drag and drop to add all quotes into the db.</p>
+            <Board initial={quoteData} />;
+          </div>
+        );
+      } else {
+        return <p>An Error Occurred: {error}, please refresh your browser.</p>;
+      }
+    } else if (status === "fetching") {
+      return <LinearProgress></LinearProgress>;
+    } else if (data) {
+      return <Board initial={data} />;
+    } else {
+      return <p>No quotes saved in db yet, please drag and drop some cards.</p>;
+    }
+  };
+
   return (
     <div
       style={{
@@ -44,6 +76,7 @@ function App() {
         textAlign: "center",
       }}
     >
+      {console.log("data", data)}
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h4" className={classes.header}>
@@ -52,9 +85,7 @@ function App() {
         </CardContent>
       </Card>
       {/* <img src={logo} className="App-logo" alt="logo" /> */}
-      <Container className={classes.container}>
-        <Board initial={authorQuoteMap} />
-      </Container>
+      <Container className={classes.container}>{renderData()}</Container>
     </div>
   );
 }

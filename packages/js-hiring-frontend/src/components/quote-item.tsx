@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { borderRadius, grid } from "../constants";
-import { colors } from "@material-ui/core";
+import { colors, Typography } from "@material-ui/core";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { Quote, AuthorColors } from "../types";
 
@@ -196,6 +196,7 @@ function QuoteItem(props: Props) {
       <Avatar src={quote.author.avatarUrl} alt={quote.author.name} />
       {isClone ? <CloneBadge>Clone</CloneBadge> : null}
       <Content>
+        <Typography style={{ fontWeight: "bold" }}>{quote.title}</Typography>
         <BlockQuote>{quote.description}</BlockQuote>
         <Footer>
           <Author colors={quote.author.colors}>{quote.author.name}</Author>

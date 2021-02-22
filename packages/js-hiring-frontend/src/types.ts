@@ -21,6 +21,7 @@ export type Quote = {
   title: string;
   status: string;
   author: Author;
+  _id?: string;
 };
 
 export type Dragging = {

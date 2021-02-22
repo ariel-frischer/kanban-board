@@ -50,13 +50,14 @@ const princess: Author = {
 };
 
 export const authors: Author[] = [jake, BMO, finn, princess];
-export const statuses: string[] = ["Ready", "InProgress", "QA", "Complete"];
 export enum STATUS {
   READY = "READY",
   IN_PROGRESS = "IN_PROGRESS",
   QA = "QA",
   COMPLETE = "COMPLETE",
 }
+
+export const statuses: STATUS[] = Object.values(STATUS);
 
 export const quotes: Quote[] = [
   {
@@ -179,10 +180,21 @@ export const getAuthors = (count: number): Author[] =>
 const getByAuthor = (author: Author, items: Quote[]): Quote[] =>
   items.filter((quote: Quote) => quote.author === author);
 
+const getQuoteStatus = (status: STATUS, items: Quote[]): Quote[] =>
+  items.filter((quote: Quote) => quote.status === status);
+
 export const authorQuoteMap: QuoteMap = authors.reduce(
   (previous: QuoteMap, author: Author) => ({
     ...previous,
     [author.name]: getByAuthor(author, quotes),
+  }),
+  {}
+);
+
+export const statusQuoteMap: QuoteMap = statuses.reduce(
+  (previous: QuoteMap, status: STATUS) => ({
+    ...previous,
+    [status]: getQuoteStatus(status, quotes),
   }),
   {}
 );
@@ -195,3 +207,14 @@ export const generateQuoteMap = (quoteCount: number): QuoteMap =>
     }),
     {}
   );
+
+// Remove large and unnecessary url data from author in quotes
+export const parseQuoteMap = (quoteMap: QuoteMap) => {
+  const quoteMapArray = Object.values(quoteMap).flat();
+  return quoteMapArray.map((quote) => {
+    return {
+      ...quote,
+      _id: quote._id,
+    };
+  });
+};
