@@ -1,24 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Board from "./components/board";
+import { authorQuoteMap } from "./data";
+import {
+  Card,
+  CardContent,
+  colors,
+  Container,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      padding: 20,
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+    },
+    header: { color: colors.blue[700], margin: 30, fontWeight: 700 },
+    card: {
+      height: 100,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 0,
+      backgroundColor: colors.blue[200],
+    },
+  };
+});
 
 function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        textAlign: "center",
+      }}
+    >
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography variant="h4" className={classes.header}>
+            Ariel's Kanban Board
+          </Typography>
+        </CardContent>
+      </Card>
+      {/* <img src={logo} className="App-logo" alt="logo" /> */}
+      <Container className={classes.container}>
+        <Board initial={authorQuoteMap} />
+      </Container>
     </div>
   );
 }
