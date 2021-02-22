@@ -13,6 +13,10 @@ export class HelloController {
 
   getHello(request: Request, response: Response) {
     response.send("Hello world").status(200);
+
+    // I'm only adding this because npm run start does not seem to work on my system correctly (BE starts but FE doesn't).
+    // Yes, I have already run a fresh `npm run build` on the frontend and backend.
+    // response.sendFile("../../../js-hiring-frontend/public/index.html");
   }
 
 async getQuotes(request: Request, response: Response, next: NextFunction) {
@@ -39,7 +43,6 @@ async getQuotes(request: Request, response: Response, next: NextFunction) {
       for (let index = 0; index < quotes.length; index++) {
         const quote = quotes[index];
         if(!quote._id) {
-          // Add Document if it doesn't exist...
           const mongooseQuote = new QuoteDoc({...quote});
           await mongooseQuote.save()
         } else if(quote._id) {
