@@ -34,12 +34,14 @@ const useStyles = makeStyles((theme) => {
       borderRadius: 0,
       backgroundColor: colors.blue[200],
     },
+    ref: { margin: 30, padding: 10 },
   };
 });
 
 function App() {
   const classes = useStyles();
   const [quoteData, setQuoteData] = useState(statusQuoteMap);
+  const refURL = "https://ariel-frischer.github.io/devFolio/";
 
   // Useful Custom Hook for fetching data
   const { status, data, error } = useFetch<QuoteMap>(
@@ -86,6 +88,11 @@ function App() {
       </Card>
       {/* <img src={logo} className="App-logo" alt="logo" /> */}
       <Container className={classes.container}>{renderData()}</Container>
+      <Typography variant="h6" className={classes.ref}>
+        <a href={refURL} style={{ color: colors.blue[900] }}>
+          Created by Ariel Frischer: See my Portfolio
+        </a>
+      </Typography>
     </div>
   );
 }
